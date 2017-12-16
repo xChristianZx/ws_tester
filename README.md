@@ -1,0 +1,1 @@
+A test to use websockets/ws for a bitcoin ui idea.
