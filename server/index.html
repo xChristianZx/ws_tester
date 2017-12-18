@@ -17,12 +17,12 @@
             // e.preventDefault();
             console.log('FormSubmission', e);
             var data = $("#m").val();
-            ws.send(data);            
+            ws.send(data);
             return false; //same as e.preventDefault()
         });
         ws.onmessage = function (event) {
-            console.log('onmessage', event);
-            $('#messages').append($('<li>').text(event.data))
+            console.log('onmessage', JSON.parse(event.data));
+            // $('#messages').append($('<li>').text(event.data))
         };
     })
 </script>
