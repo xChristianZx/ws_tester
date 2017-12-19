@@ -11,13 +11,13 @@ const wsGDAX = new WebSocket(GDAX_ENDPOINT);
 const wsServer = new WebSocket.Server({ port: 8000 });
 
 app.get("/", (req, res) => {
-  res.sendFile(__dirname + "/index.html");
+  res.sendFile(__dirname + "/client/public/index.html");
 });
 
 //GDAX WS connection
 const heartbeat = {
   type: "subscribe",
-  product_ids: ["BTC-USD", "ETH-USD"],
+  product_ids: ["BTC-USD"],
   channels: ["heartbeat", "ticker"]
 };
 
