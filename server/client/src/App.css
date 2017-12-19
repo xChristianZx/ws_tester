@@ -1,0 +1,6 @@
+.market-container {
+    display: block;
+    width: 30vw;
+    border: 1px solid darkgray;
+    text-align: center;
+}
