@@ -21,8 +21,14 @@
             return false; //same as e.preventDefault()
         });
         ws.onmessage = function (event) {
-            console.log('onmessage', JSON.parse(event.data));
-            // $('#messages').append($('<li>').text(event.data))
+            if (event.data == undefined) {
+                return;
+            }
+            const data = JSON.parse(event.data);
+            console.log('onmessage', data.type);
+            if (data.type === 'ticker') {
+                $('#messages').append($('<li>').text(data.price))
+            }
         };
     })
 </script>

@@ -33,7 +33,7 @@ wsGDAX.on("message", data => {
 //Clientside WS connection
 wsServer.on("connection", ws => {
   wsGDAX.on("message", data => {
-    ws.send(JSON.stringify(data));
+    ws.send(data);
   });
 
   // console.log("Serverside:", ws);
