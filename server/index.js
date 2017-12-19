@@ -5,8 +5,6 @@ const WebSocket = require("ws");
 
 const app = express();
 
-//Recreate socket.io Chat App with WS
-
 const GDAX_ENDPOINT = "wss://ws-feed.gdax.com";
 const server = http.createServer(app);
 const wsGDAX = new WebSocket(GDAX_ENDPOINT);
@@ -16,6 +14,7 @@ app.get("/", (req, res) => {
   res.sendFile(__dirname + "/index.html");
 });
 
+//GDAX WS connection
 const heartbeat = {
   type: "subscribe",
   product_ids: ["BTC-USD", "ETH-USD"],
@@ -35,13 +34,9 @@ wsServer.on("connection", ws => {
   wsGDAX.on("message", data => {
     ws.send(data);
   });
-
-  // console.log("Serverside:", ws);
-  // ws.on("message", msg => {
-  //   console.log("incoming msg: %m", msg);
-  //   ws.send(JSON.stringify(msg));
-  // });
 });
+
+// wsServer.on('close', )
 
 server.listen(8080, () => {
   console.log("Listening on %d", server.address().port);
