@@ -32,18 +32,10 @@ class Price extends Component {
     });
   }
 
-  render() {
-    const {
-      spotPrice,
-      open_24h,
-      high_24h,
-      low_24h,
-      side,
-      product
-    } = this.state;
+  render() {    
     return (
       <div>
-        <Market props={this.state} />
+        <Market data={this.state} />
       </div>
     );
   }
