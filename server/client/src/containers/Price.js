@@ -18,7 +18,7 @@ class Price extends Component {
   componentDidMount() {
     this.socket = new WebSocket("ws://localhost:8000");
     this.socket.addEventListener("message", msg => {
-      let data = JSON.parse(msg.data);
+      const data = JSON.parse(msg.data);
       console.log(data);
       if (data.type === "ticker") {
         this.setState({
@@ -33,14 +33,16 @@ class Price extends Component {
   }
 
   render() {
-    const { spotPrice, open_24h, high_24h, low_24h, side } = this.state;
+    const {
+      spotPrice,
+      open_24h,
+      high_24h,
+      low_24h,
+      side,
+      product
+    } = this.state;
     return (
       <div>
-        <p>Price: {spotPrice}</p>
-        <p>Side: {side}</p>
-        <p>Open: {open_24h}</p>
-        <p>High: {high_24h}</p>
-        <p>Low: {low_24h}</p>
         <Market props={this.state} />
       </div>
     );
