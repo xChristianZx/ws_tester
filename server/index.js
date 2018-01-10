@@ -23,10 +23,11 @@ const heartbeat = {
 
 wsGDAX.on("open", () => {
   wsGDAX.send(JSON.stringify(heartbeat));
+  console.log("Serverside WS connection open");
 });
 
 wsGDAX.on("message", data => {
-  console.log("-", data);
+  // console.log("-", data);
 });
 
 //Clientside WS connection
