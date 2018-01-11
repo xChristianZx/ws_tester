@@ -37,7 +37,13 @@ wsServer.on("connection", ws => {
   });
 });
 
-// wsServer.on('close', )
+wsServer.on("close", () => {
+  console.log("Serverside WS Connection Closed");
+});
+
+wsServer.on("error", err => {
+  console.log("Serverside WS Error:", err);
+});
 
 server.listen(8080, () => {
   console.log("Listening on %d", server.address().port);
