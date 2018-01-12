@@ -17,7 +17,3 @@ const wsData = data => {
 };
 
 export default wsData;
-
-// export const fetchData = data => {
-//   return function(dispatch) {};
-// };

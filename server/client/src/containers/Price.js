@@ -1,23 +1,10 @@
 import React, { Component } from "react";
 import Market from "../components/Market";
 import { connect } from "react-redux";
-// import { websocketConnecting } from "../actions/index";
 import wsData from "../actions/index";
 import { bindActionCreators } from "redux";
 
 class Price extends Component {
-  // constructor(props) {
-  //   super(props);
-  //   this.state = {
-  //     product: "BTC-USD",
-  //     spotPrice: "",
-  //     open_24h: "",
-  //     high_24h: "",
-  //     low_24h: "",
-  //     side: ""
-  //   };
-  // }
-
   componentDidMount() {
     this.wsSetup();
   }
@@ -37,15 +24,6 @@ class Price extends Component {
         console.log(data);
         this.props.wsData(data);
       }
-      // if (data.type === "ticker") {
-      //   this.setState({
-      //     spotPrice: data.price,
-      //     open_24h: data.open_24h,
-      //     high_24h: data.high_24h,
-      //     low_24h: data.low_24h,
-      //     side: data.side
-      //   });
-      // }
     };
 
     socket.onerror = msg => {
@@ -75,4 +53,3 @@ function mapStateToProps({ data }) {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Price);
-// export default Price;
