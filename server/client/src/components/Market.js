@@ -1,6 +1,13 @@
 import React from "react";
 
 const Market = ({ data }) => {
+  if (!data) {
+    return (
+      <div className="market-container">
+        <p>Loading...</p>
+      </div>
+    );
+  }
   return (
     <div className="market-container">
       <h3>{data.product}</h3>

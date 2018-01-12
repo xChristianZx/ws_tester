@@ -1,7 +1,6 @@
-// eslint-disable
-import { FETCH_DATA, WEBSOCKET_CONNECT } from "./types";
-const uri = "ws://localhost:8000";
-// const websocket;
+// eslint-disable-next-line
+import { FETCH_DATA, WEBSOCKET_CONNECT, WEBSOCKET_DATA } from "./types";
+// const uri = "ws://localhost:8000";
 
 export const websocketConnecting = (uri = "ws://localhost:8000") => {
   return {
@@ -10,8 +9,15 @@ export const websocketConnecting = (uri = "ws://localhost:8000") => {
   };
 };
 
-export const fetchData = () => {
-  return function(dispatch) {
-    //WS logic should go here
+const wsData = data => {
+  return {
+    type: WEBSOCKET_DATA,
+    data
   };
 };
+
+export default wsData;
+
+// export const fetchData = data => {
+//   return function(dispatch) {};
+// };
