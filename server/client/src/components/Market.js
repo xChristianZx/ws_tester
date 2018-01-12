@@ -10,12 +10,12 @@ const Market = ({ data }) => {
   }
   return (
     <div className="market-container">
-      <h3>{data.product}</h3>
+      <h3>{data.product_id}</h3>
       <p>Side: {data.side}</p>
       <p>Open: {data.open_24h}</p>
       <p>High: {data.high_24h}</p>
       <p>Low: {data.low_24h}</p>
-      <h1>{data.spotPrice}</h1>
+      <h1>{data.price}</h1>
     </div>
   );
 };
