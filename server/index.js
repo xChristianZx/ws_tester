@@ -14,27 +14,39 @@ app.get("/", (req, res) => {
   res.sendFile(__dirname + "/client/public/index.html");
 });
 
-//GDAX WS connection
+/*
+  * GDAX WS connection
+*/
+
 const heartbeat = {
   type: "subscribe",
   product_ids: ["BTC-USD"],
   channels: ["heartbeat", "ticker"]
 };
 
+// Send Heartbeat
 wsGDAX.on("open", () => {
   wsGDAX.send(JSON.stringify(heartbeat));
   console.log("Serverside WS connection open");
 });
 
+//Connection to Clientside
+// wsServer.on("connection", ws => {
+//   wsGDAX.on("message", data => {
+//     ws.send(data);
+//   });
+// });
+
+wsServer.broadcast = function broadcast(data) {
+  wsServer.clients.forEach(function each(client) {
+    if (client.readyState === WebSocket.OPEN) {
+      client.send(data);
+    }
+  });
+};
 wsGDAX.on("message", data => {
   // console.log("-", data);
-});
-
-//Clientside WS connection
-wsServer.on("connection", ws => {
-  wsGDAX.on("message", data => {
-    ws.send(data);
-  });
+  wsServer.broadcast(data);
 });
 
 wsServer.on("close", () => {
