@@ -59,7 +59,7 @@ wsServer.on("connection", ws => {
   );
 
   ws.on("message", msg => {
-    console.log("Server: ", msg);
+    console.log("Received: ", msg);
   });
 
   ws.on("close", (code, reason) => {

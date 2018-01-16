@@ -37,6 +37,10 @@ class Price extends Component {
     socket.onclose = msg => {
       console.log("WebSocket Closed:", msg);
     };
+
+    window.addEventListener("beforeunload", () => {
+      socket.close();
+    })
   };
 
   render() {
