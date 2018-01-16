@@ -11,15 +11,19 @@ class Price extends Component {
 
   wsSetup = () => {
     const socket = new WebSocket("ws://localhost:8000");
-    // console.log("Here I am", socket.readyState);
+    console.log("Here I am", socket.readyState);
 
     socket.onopen = msg => {
       console.log("Websocket state:", msg.type);
+      socket.send("Client connected");
     };
 
     socket.onmessage = msg => {
       // console.log(msg);
       const data = JSON.parse(msg.data);
+      if (data.type === "message") {
+        console.log(data);
+      }
       if (data.type === "ticker") {
         console.log(data);
         this.props.wsData(data);

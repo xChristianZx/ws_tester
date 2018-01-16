@@ -8,14 +8,14 @@ const app = express();
 const GDAX_ENDPOINT = "wss://ws-feed.gdax.com";
 const server = http.createServer(app);
 const wsGDAX = new WebSocket(GDAX_ENDPOINT);
-const wsServer = new WebSocket.Server({ port: 8000 });
+const wsServer = new WebSocket.Server({ port: 8000, clientTracking: true });
 
 app.get("/", (req, res) => {
   res.sendFile(__dirname + "/client/public/index.html");
 });
 
-/*
-  * GDAX WS connection
+/* 
+GDAX WS connection
 */
 
 const heartbeat = {
@@ -25,18 +25,22 @@ const heartbeat = {
 };
 
 // Send Heartbeat
-wsGDAX.on("open", () => {
+wsGDAX.on("open", gdax => {
   wsGDAX.send(JSON.stringify(heartbeat));
-  console.log("Serverside WS connection open");
+  console.log("WS Connection with GDAX open");
 });
 
-//Connection to Clientside
-// wsServer.on("connection", ws => {
-//   wsGDAX.on("message", data => {
-//     ws.send(data);
-//   });
-// });
+//Broadcast Data to Clients
+wsGDAX.on("message", data => {
+  wsServer.broadcast(data);
+  // console.log("-", data);
+});
 
+wsGDAX.on("close", msg => {
+  console.log("GDAX connection closed: ", msg);
+});
+
+//Broadcast Function
 wsServer.broadcast = function broadcast(data) {
   wsServer.clients.forEach(function each(client) {
     if (client.readyState === WebSocket.OPEN) {
@@ -44,17 +48,32 @@ wsServer.broadcast = function broadcast(data) {
     }
   });
 };
-wsGDAX.on("message", data => {
-  // console.log("-", data);
-  wsServer.broadcast(data);
-});
 
-wsServer.on("close", () => {
-  console.log("Serverside WS Connection Closed");
-});
+//Server to Client Connection
+wsServer.on("connection", ws => {
+  ws.send(
+    JSON.stringify({
+      type: "message",
+      data: "Hello client"
+    })
+  );
 
-wsServer.on("error", err => {
-  console.log("Serverside WS Error:", err);
+  ws.on("message", msg => {
+    console.log("Server: ", msg);
+  });
+
+  ws.on("close", (code, reason) => {
+    console.log(`Client connection closed - ${reason} code: ${code}`);
+  });
+
+  // ws.onclose = msg => {
+  //   console.log(msg);
+  // };
+
+  ws.on("error", err => {
+    console.log("Serverside WS Error", err);
+    ws.terminate();
+  });
 });
 
 server.listen(8080, () => {
